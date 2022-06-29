@@ -45,3 +45,26 @@ pip install flask replicate
 ```commandline
 python dalle_slackbot.py
 ```
+
+### Run on Google Cloud
+* Create a basic f1-micro (~$5/month) instance
+* Installation
+```
+# Get ngrok & other tools
+curl https://bin.equinox.io/c/4VmDzA7iaHb/ngrok-stable-linux-amd64.zip -o ngrok-stable-linux-amd64.zip
+sudo apt-get install unzip tmux git
+unzip ngrok-stable-linux-amd64.zip
+```
+* Run ngrok in a tmux session
+```
+tmux
+./ngrok authtoken XEQtaZ7FfLgSDvbw8L6H_4P9NCQkPBKeMEpn7QxD9q
+```
+* Run flask server in a separate tmux session
+```
+tmux
+git clone https://github.com/sanzgiri/dalle_slackbot.git
+pip3 install flask replicate packaging
+cd dalle_slackbot
+python3 dalle_slackbot.py
+```
