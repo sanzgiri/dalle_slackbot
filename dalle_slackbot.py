@@ -45,8 +45,6 @@ def sub_dalle(data, channel):
     elif model_type == 'kuprel':
         my_dict = model.predict(text=data, grid_size=1)
 
-    my_dict = model.predict(prompt=data, n_predictions=1)
-
     time_taken = time.time() - start
     url = my_dict[0]['image']
 
