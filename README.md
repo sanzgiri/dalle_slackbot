@@ -1,4 +1,4 @@
-## Setup & Installation
+ngrok## Setup & Installation
 
 * Install ngrok: https://dashboard.ngrok.com/get-started/setup and run
 ```
@@ -58,7 +58,7 @@ unzip ngrok-stable-linux-amd64.zip
 * Run ngrok in a tmux session
 ```
 tmux
-./ngrok authtoken XEQtaZ7FfLgSDvbw8L6H_4P9NCQkPBKeMEpn7QxD9q
+./ngrok authtoken <token>
 ```
 * Run flask server in a separate tmux session
 ```
