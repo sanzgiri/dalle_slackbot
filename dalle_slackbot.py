@@ -10,7 +10,12 @@ slack_token = "<your-bot-user-oauth-token>"
 response_url = "<your-incoming-webhook-url>"
 
 os.environ['REPLICATE_API_TOKEN'] = "<your-replicate-api=token>"
-model = replicate.models.get("borisdayma/dalle-mini")
+model_type = "kuprel"
+
+if model_type == "borisdayma":
+    model = replicate.models.get("borisdayma/dalle-mini")
+elif model_type == 'kuprel':
+    model = replicate.models.get("kuprel/min-dalle")
 
 # Initialize the Flask object which will be used to handle HTTP requests
 # from Slack
@@ -35,6 +40,11 @@ def dalle_handler():
 def sub_dalle(data, channel):
 
     start = time.time()
+    if model_type == "borisdayma":
+        my_dict = model.predict(prompt=data, n_predictions=1)
+    elif model_type == 'kuprel':
+        my_dict = model.predict(text=data, grid_size=1)
+
     my_dict = model.predict(prompt=data, n_predictions=1)
 
     time_taken = time.time() - start
