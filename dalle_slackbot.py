@@ -10,12 +10,15 @@ slack_token = "<your-bot-user-oauth-token>"
 response_url = "<your-incoming-webhook-url>"
 
 os.environ['REPLICATE_API_TOKEN'] = "<your-replicate-api=token>"
-model_type = "kuprel"
 
-if model_type == "borisdayma":
-    model = replicate.models.get("borisdayma/dalle-mini")
-elif model_type == 'kuprel':
-    model = replicate.models.get("kuprel/min-dalle")
+# these are some of the models available on replicate
+model_dict = {"borisdayma": "borisdayma/dalle-mini",
+              "kuprel": "kuprel/min-dalle",
+              "mehdidc": "mehdidc/feed_forward_vqgan_clip"}
+
+# this is the fastest one right now
+model_type = "kuprel"
+model = replicate.models.get(model_dict[model_type])
 
 # Initialize the Flask object which will be used to handle HTTP requests
 # from Slack
@@ -42,12 +45,14 @@ def sub_dalle(data, channel):
     start = time.time()
     if model_type == "borisdayma":
         my_dict = model.predict(prompt=data, n_predictions=1)
+        url = my_dict[0]['image']
     elif model_type == 'kuprel':
         my_dict = model.predict(text=data, grid_size=1)
+        url = list(my_dict)[-1]
+    elif model_type == 'mehdidc':
+        url = model.predict(prompt=data, grid_size="1x1")
 
     time_taken = time.time() - start
-    url = my_dict[0]['image']
-
     text = f"{time_taken} sec taken to get {url}"
 
     payload = {"token": slack_token,
