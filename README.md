@@ -1,19 +1,20 @@
-ngrok## Setup & Installation
+## Setup & Installation
 
-* Install ngrok: https://dashboard.ngrok.com/get-started/setup and run
+* Install ngrok: https://dashboard.ngrok.com/get-started/setup
+* Run
 ```
 ngrok http 3000
 ```
 This exposes your local flask server using a randomly assigned URL that you get from the command. This will be of the form
-https://<xxx>.ngrok.io. Note this will change everytime you restart ngrok.
+https://<xxx>.ngrok.io. Note this URL will change everytime you restart ngrok.
 
 * Create a new Slack App: https://api.slack.com/apps
-  * From scratch
-  * Give it an App Name, select a workspace
+  * Click "Create New App", choose "From scratch" option
+  * Provide an App Name, Select a workspace
   * Add Features & Functionality
     * Slash Commands: 
       * Command: /galle
-      * Request URL: ngrok URL you got above
+      * Request URL: provide the ngrok URL you got above
       * Short Description: Generates an image from a text prompt using Dall-E
       * Usage Hint: "<text prompt>"
     * OAuth & Permissions
@@ -26,12 +27,19 @@ https://<xxx>.ngrok.io. Note this will change everytime you restart ngrok.
   * Manage Distribution: To install app in other workspaces
 
 
-## Mini Dall-E API
-The images are generated using the DALL-E mini model: https://github.com/borisdayma/dalle-mini. 
-Although this can be run locally, it takes a significant amount of compute. For this implementation,
-I opted to get the images using an API hosted at https://replicate.com/borisdayma/dalle-mini. This requires 
-a "Hobby" subscription ($10/month). The API token has to be provided in the code.
+## Replicate API
+Although you can run the DALL-E mini and similar models locally, they take a significant amount of compute and a GPU
+to run in a reasonable amount of time. For this implementation, I opted to get the images using the Replicate API. This 
+requires a "Hobby" subscription ($10/month). The API token is provided in the code.
 
+There are several models available via Replicate and the code allows you to switch using the following dict:
+```commandline
+model_dict = {"borisdayma": "borisdayma/dalle-mini",
+              "kuprel": "kuprel/min-dalle",
+              "mehdidc": "mehdidc/feed_forward_vqgan_clip"}
+```
+
+The first two take ~ 25 sec, the third one is significantly faster at ~ 3 sec.
 
 ## Run flask server
 
