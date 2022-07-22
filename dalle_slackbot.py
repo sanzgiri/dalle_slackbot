@@ -53,7 +53,7 @@ def sub_dalle(data, channel):
         url = model.predict(prompt=data, grid_size="1x1")
 
     time_taken = time.time() - start
-    text = f"{time_taken} sec taken to get {url}"
+    text = f"{prompt}: {url} ({time_taken} sec)"
 
     payload = {"token": slack_token,
                "channel": channel,
