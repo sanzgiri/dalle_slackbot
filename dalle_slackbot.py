@@ -14,10 +14,11 @@ os.environ['REPLICATE_API_TOKEN'] = "<your-replicate-api=token>"
 # these are some of the models available on replicate
 model_dict = {"borisdayma": "borisdayma/dalle-mini",
               "kuprel": "kuprel/min-dalle",
-              "mehdidc": "mehdidc/feed_forward_vqgan_clip"}
+              "mehdidc": "mehdidc/feed_forward_vqgan_clip",
+              "sd": "stability-ai/stable-diffusion"}
 
 # this is the fastest one right now
-model_type = "kuprel"
+model_type = "sd"
 model = replicate.models.get(model_dict[model_type])
 
 # Initialize the Flask object which will be used to handle HTTP requests
@@ -51,6 +52,8 @@ def sub_dalle(data, channel):
         url = list(my_dict)[-1]
     elif model_type == 'mehdidc':
         url = model.predict(prompt=data, grid_size="1x1")
+    elif model_type == 'sd':
+        url = model.predict(prompt=data)[0]
 
     time_taken = time.time() - start
     text = f"{prompt}: {url} ({time_taken} sec)"
